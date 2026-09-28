@@ -4,13 +4,18 @@ services:
     container_name: sistema-ventas-postgres
     restart: unless-stopped
     environment:
-      POSTGRESS_DB: SistemaVentas
+      POSTGRES_DB: SistemaVentas
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres123
+      TZ: America/Santo_Domingo
+      PGTZ: America/Santo_Domingo
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      # Los scripts de esta carpeta se ejecutan en orden (01, 02, 03)
+      # la primera vez que se crea el volumen.
+      - ../SQL:/docker-entrypoint-initdb.d:ro
 
 volumes:
   postgres_data:
